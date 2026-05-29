@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS inscritos (
   programa2 TEXT,
   anio_grado2 TEXT,
   tipo_egresado TEXT NOT NULL CHECK (tipo_egresado IN ('socio', 'no_socio')),
-  boton_extra BOOLEAN DEFAULT FALSE,
+  cantidad_botones INTEGER DEFAULT 0,
   total INTEGER NOT NULL,
   estado_pago TEXT DEFAULT 'pendiente' CHECK (estado_pago IN ('pendiente', 'verificando', 'aprobado', 'rechazado')),
   qr_token UUID DEFAULT gen_random_uuid() UNIQUE,
@@ -122,8 +122,9 @@ CREATE POLICY "auth_delete_comprobantes"
 -- DATOS DE PRUEBA (opcional)
 -- ============================================
 
--- INSERT INTO inscritos (nombre, cedula, telefono, correo, acompanantes, programa1, anio_grado1, tipo_egresado, boton_extra, total, estado_pago)
+-- INSERT INTO inscritos (nombre, cedula, telefono, correo, acompanantes, programa1, anio_grado1, tipo_egresado, 
+-- cantidad_botones, total, estado_pago)
 -- VALUES
---   ('Carlos Ramírez', '13456789', '3001234567', 'carlos@email.com', 1, 'Ingeniería de Sistemas', '2015', 'socio', false, 180000, 'aprobado'),
---   ('María González', '24567890', '3109876543', 'maria@email.com', 0, 'Medicina', '2010', 'no_socio', true, 165000, 'pendiente'),
---   ('Luis Torres', '35678901', '3201112233', 'luis@email.com', 2, 'Derecho', '2005', 'no_socio', false, 310000, 'verificando');
+--   ('Carlos Ramírez', '13456789', '3001234567', 'carlos@email.com', 1, 'Ingeniería de Sistemas', '2015', 'socio', 0, 180000, 'aprobado'),
+--   ('María González', '24567890', '3109876543', 'maria@email.com', 0, 'Medicina', '2010', 'no_socio', 1, 165000, 'pendiente'),
+--   ('Luis Torres', '35678901', '3201112233', 'luis@email.com', 2, 'Derecho', '2005', 'no_socio', 0, 310000, 'verificando');
