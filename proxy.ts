@@ -12,11 +12,20 @@ export default async function proxy(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
+
+        setAll(
+          cookiesToSet: {
+            name: string
+            value: string
+            options?: any
+          }[]
+        ) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
+
           supabaseResponse = NextResponse.next({ request })
+
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           )
@@ -25,12 +34,14 @@ export default async function proxy(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
-  const isLoginPage   = path.startsWith('/login')
+  const isLoginPage = path.startsWith('/login')
   const isCheckinPage = path.startsWith('/checkin')
-  const isApiRoute    = path.startsWith('/api')
+  const isApiRoute = path.startsWith('/api')
 
   // 1. Si NO está logueado y no es login ni api → ir al login
   if (!user && !isLoginPage && !isApiRoute) {
@@ -40,15 +51,18 @@ export default async function proxy(request: NextRequest) {
   // 2. Si está logueado y va al login → redirigir según rol
   if (user && isLoginPage) {
     const role = user.user_metadata?.role
+
     if (role === 'checkin') {
       return NextResponse.redirect(new URL('/checkin', request.url))
     }
+
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   // 3. Si está logueado con rol checkin e intenta acceder a algo que no es checkin → bloquearlo
   if (user && !isCheckinPage && !isApiRoute) {
     const role = user.user_metadata?.role
+
     if (role === 'checkin') {
       return NextResponse.redirect(new URL('/checkin', request.url))
     }
