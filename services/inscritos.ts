@@ -35,7 +35,7 @@ export async function getInscritoPorCedula(cedula: string): Promise<Inscrito | n
 
 
 export async function crearInscrito(
-  datos: Omit<Inscrito, 'id' | 'qr_token' | 'ingreso' | 'fecha_ingreso' | 'comprobante_url' | 'created_at' | 'boton_extra' | 'estado_pago'>,
+  datos: Omit<Inscrito, 'id' | 'qr_token' | 'ingreso' | 'fecha_ingreso' | 'comprobante_url' | 'created_at' | 'cantidad_botones' | 'estado_pago'>,
   archivo?: File
 ): Promise<Inscrito> {
   const supabase = createClient()
