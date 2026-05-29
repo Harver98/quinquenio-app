@@ -82,7 +82,7 @@ export default function InscritoDetailPage() {
     { label: 'Año grado 1',  valor: inscrito.anio_grado1 },
     ...(inscrito.programa2   ? [{ label: 'Programa 2',  valor: inscrito.programa2 }]  : []),
     ...(inscrito.anio_grado2 ? [{ label: 'Año grado 2', valor: inscrito.anio_grado2 }]: []),
-    { label: 'Botón extra',  valor: inscrito.boton_extra ? 'Sí' : 'No' },
+    {label: 'Cantidad botones', valor: `${inscrito.cantidad_botones ?? 0}`},
     { label: 'Total',        valor: formatCOP(inscrito.total) },
   ]
 
