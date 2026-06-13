@@ -27,8 +27,14 @@ export async function POST(request: NextRequest) {
 
   // Cliente admin para storage (sin restricciones RLS)
   const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  }
   )
 
   const { data: inscrito, error } = await supabase
