@@ -19,6 +19,7 @@ export default function InscritoDetailPage() {
   useEffect(() => {
     async function cargar() {
       const data = await getInscrito(id)
+      console.log('qr_enviado:', data?.qr_enviado) // ← aquí
       setInscrito(data)
       if (data?.comprobante_url) {
         const url = await getComprobanteUrl(data.comprobante_url)
