@@ -1,6 +1,7 @@
 // app/api/enviar-qr/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import QRCode from 'qrcode'
 
@@ -12,6 +13,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'inscrito_id requerido' }, { status: 400 })
   }
 
+  // Cliente normal para leer inscritos (con cookies/auth)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -21,6 +23,12 @@ export async function POST(request: NextRequest) {
         setAll() {},
       },
     }
+  )
+
+  // Cliente admin para storage (sin restricciones RLS)
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
   const { data: inscrito, error } = await supabase
@@ -46,7 +54,8 @@ export async function POST(request: NextRequest) {
   })
 
   const fileName = `qr-${inscrito.qr_token}.png`
-  const { error: uploadError } = await supabase.storage
+
+  const { error: uploadError } = await supabaseAdmin.storage
     .from('qr-codes')
     .upload(fileName, qrBuffer, {
       contentType: 'image/png',
@@ -58,7 +67,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Error generando QR' }, { status: 500 })
   }
 
-  const { data: urlData } = supabase.storage
+  const { data: urlData } = supabaseAdmin.storage
     .from('qr-codes')
     .getPublicUrl(fileName)
 
