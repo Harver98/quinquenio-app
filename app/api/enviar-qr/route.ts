@@ -141,12 +141,11 @@ export async function POST(request: NextRequest) {
         </html>
       `,
       attachments: [
-        {
-          filename: `QR-ingreso-${inscrito.cedula}.png`,
-          content: qrImageBase64,
-          content_id: 'qr-code',
-        },
-      ],
+  {
+    filename: `QR-ingreso-${inscrito.cedula}.png`,
+    content: qrImageBase64,
+  },
+],
     }),
   })
 
