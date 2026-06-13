@@ -88,9 +88,9 @@ if (uploadError) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2025 <noreply@aseduis.com>',
+      from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2026 <noreply@aseduis.com>',
       to: [inscrito.correo],
-      subject: '🎓 Tu código QR de ingreso — Quinquenio ASEDUIS 2025',
+      subject: '🎓 Tu código QR de ingreso — Quinquenio ASEDUIS 2026',
       html: `
         <!DOCTYPE html>
         <html lang="es">
@@ -101,7 +101,7 @@ if (uploadError) {
                 <tr>
                   <td style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8);padding:36px 40px;text-align:center;">
                     <p style="margin:0;color:#93c5fd;font-size:13px;letter-spacing:2px;text-transform:uppercase;">Universidad Industrial de Santander</p>
-                    <h1 style="margin:8px 0 0;color:#ffffff;font-size:26px;font-weight:700;">Quinquenio ASEDUIS 2025</h1>
+                    <h1 style="margin:8px 0 0;color:#ffffff;font-size:26px;font-weight:700;">Quinquenio ASEDUIS 2026</h1>
                   </td>
                 </tr>
                 <tr>
@@ -192,10 +192,12 @@ if (uploadError) {
     return NextResponse.json({ error: 'Error al enviar el correo' }, { status: 500 })
   }
   
-  await supabaseAdmin
+  const { error: updateError } = await supabaseAdmin
   .from('inscritos')
   .update({ qr_enviado: true })
   .eq('id', inscrito_id)
 
-  return NextResponse.json({ ok: true, mensaje: 'Correo enviado correctamente' })
+console.log('Update qr_enviado result:', updateError ? JSON.stringify(updateError) : 'OK')
+
+return NextResponse.json({ ok: true, mensaje: 'Correo enviado correctamente' })
 }
