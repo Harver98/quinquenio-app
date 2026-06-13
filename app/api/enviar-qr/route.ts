@@ -185,6 +185,11 @@ if (uploadError) {
     console.error('Resend error:', err)
     return NextResponse.json({ error: 'Error al enviar el correo' }, { status: 500 })
   }
+  
+  await supabaseAdmin
+  .from('inscritos')
+  .update({ qr_enviado: true })
+  .eq('id', inscrito_id)
 
   return NextResponse.json({ ok: true, mensaje: 'Correo enviado correctamente' })
 }
