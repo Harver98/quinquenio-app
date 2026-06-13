@@ -1,3 +1,4 @@
+// app/api/enviar-qr/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -37,11 +38,14 @@ export async function POST(request: NextRequest) {
   }
 
   const urlQR = `${process.env.NEXT_PUBLIC_APP_URL}/checkin/${inscrito.qr_token}`
+
+  // qrBase64 tiene el prefijo data:image/png;base64,... — úsalo directo en el src
   const qrBase64 = await QRCode.toDataURL(urlQR, {
     width: 400,
     margin: 2,
     color: { dark: '#1e3a8a', light: '#ffffff' },
   })
+  // Para el adjunto descargable, sin el prefijo
   const qrImageBase64 = qrBase64.replace(/^data:image\/png;base64,/, '')
 
   const res = await fetch('https://api.resend.com/emails', {
@@ -51,7 +55,7 @@ export async function POST(request: NextRequest) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2025 <noreply@tudominio.com>',
+      from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2025 <noreply@aseduis.com>',
       to: [inscrito.correo],
       subject: '🎓 Tu código QR de ingreso — Quinquenio ASEDUIS 2025',
       html: `
@@ -78,7 +82,7 @@ export async function POST(request: NextRequest) {
                 <tr>
                   <td style="padding:0 40px 24px;text-align:center;">
                     <div style="background:#eff6ff;border:2px solid #bfdbfe;border-radius:16px;padding:32px;display:inline-block;">
-                      <img src="cid:qr-code" alt="Código QR" width="220" height="220" style="display:block;border-radius:8px;" />
+                      <img src="${qrBase64}" alt="Código QR" width="220" height="220" style="display:block;border-radius:8px;" />
                       <p style="margin:16px 0 0;color:#1e40af;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Código de ingreso único</p>
                     </div>
                   </td>
@@ -113,17 +117,17 @@ export async function POST(request: NextRequest) {
                 <tr>
                   <td style="padding:0 40px 32px;">
                     <div style="background:#fefce8;border:1px solid #fde68a;border-radius:12px;padding:16px 20px;">
-                        <p style="margin:0;color:#92400e;font-size:13px;font-weight:600;">📋 Instrucciones de ingreso</p>
-                        <ul style="margin:8px 0 0;padding-left:16px;color:#78350f;font-size:13px;line-height:1.8;">
-                          <li><strong>Lugar:</strong> Aula Máxima de Ciencias – UIS</li>
-                          <li><strong>Fecha:</strong> 14 de agosto del 2026</li>
-                          <li><strong>Hora:</strong> 06:15 pm</li>
-                          <li>Presenta este QR en la entrada del evento</li>
-                          <li>El código es de uso único e intransferible</li>
-                          <li>Puedes presentarlo desde tu celular o impreso</li>
-                          ${inscrito.acompanantes > 0 ? `<li>Puedes ingresar con <strong>${inscrito.acompanantes} acompañante${inscrito.acompanantes > 1 ? 's' : ''}</strong></li>` : ''}
-                        </ul>
-                      </div>
+                      <p style="margin:0;color:#92400e;font-size:13px;font-weight:600;">📋 Instrucciones de ingreso</p>
+                      <ul style="margin:8px 0 0;padding-left:16px;color:#78350f;font-size:13px;line-height:1.8;">
+                        <li><strong>Lugar:</strong> Aula Máxima de Ciencias – UIS</li>
+                        <li><strong>Fecha:</strong> 14 de agosto del 2026</li>
+                        <li><strong>Hora:</strong> 06:15 pm</li>
+                        <li>Presenta este QR en la entrada del evento</li>
+                        <li>El código es de uso único e intransferible</li>
+                        <li>Puedes presentarlo desde tu celular o impreso</li>
+                        ${inscrito.acompanantes > 0 ? `<li>Puedes ingresar con <strong>${inscrito.acompanantes} acompañante${inscrito.acompanantes > 1 ? 's' : ''}</strong></li>` : ''}
+                      </ul>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -141,11 +145,11 @@ export async function POST(request: NextRequest) {
         </html>
       `,
       attachments: [
-  {
-    filename: `QR-ingreso-${inscrito.cedula}.png`,
-    content: qrImageBase64,
-  },
-],
+        {
+          filename: `QR-ingreso-${inscrito.cedula}.png`,
+          content: qrImageBase64,
+        },
+      ],
     }),
   })
 
