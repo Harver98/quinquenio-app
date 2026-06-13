@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   }
 )
 
-  const { data: inscrito, error } = await supabaseAdmin
+  const { data: inscrito, error } = await supabase
     .from('inscritos')
     .select('*')
     .eq('id', inscrito_id)
