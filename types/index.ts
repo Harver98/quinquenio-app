@@ -22,6 +22,7 @@ export interface Inscrito {
   fecha_ingreso?: string
   comprobante_url?: string
   created_at: string
+  qr_enviado?: boolean
 }
 
 export interface Checkin {
