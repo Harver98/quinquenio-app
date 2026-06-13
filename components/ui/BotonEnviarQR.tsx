@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { createClient } from '@/lib/supabase/client'
 
 export function BotonEnviarQR({ 
   inscritoId, 
@@ -28,6 +29,14 @@ export function BotonEnviarQR({
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
+
+      // Actualizar qr_enviado directamente desde el cliente
+      const supabase = createClient()
+      await supabase
+        .from('inscritos')
+        .update({ qr_enviado: true })
+        .eq('id', inscritoId)
+
       toast.success('✅ QR enviado al correo del inscrito')
       setQrEnviado(true)
     } catch (e: any) {
@@ -37,7 +46,6 @@ export function BotonEnviarQR({
     }
   }
 
-  // Si ya fue enviado, mostrar advertencia antes de reenviar
   if (qrEnviado && !confirmar) {
     return (
       <button
