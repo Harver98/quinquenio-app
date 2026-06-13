@@ -29,7 +29,7 @@ export default function CheckinPage() {
         <div className="flex items-center justify-between mb-6 pt-4">
           <div className="text-center flex-1">
             <h1 className="text-white text-2xl font-bold">Check-in</h1>
-            <p className="text-blue-200 text-sm mt-1">Quinquenio UIS 2025</p>
+            <p className="text-blue-200 text-sm mt-1">Quinquenio UIS 2026</p>
           </div>
           <button
             onClick={handleLogout}

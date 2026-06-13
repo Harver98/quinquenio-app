@@ -60,7 +60,7 @@ export default function QRPage() {
     <div className="p-8 max-w-lg mx-auto">
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         <div className="bg-blue-900 p-6 text-center">
-          <h1 className="text-white font-bold text-xl">Quinquenio UIS 2025</h1>
+          <h1 className="text-white font-bold text-xl">Quinquenio UIS 2026</h1>
           <p className="text-blue-200 text-sm mt-1">Código de ingreso</p>
         </div>
 

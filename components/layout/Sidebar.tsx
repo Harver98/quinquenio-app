@@ -28,7 +28,7 @@ export default function Sidebar() {
     <aside className="w-64 bg-blue-900 min-h-screen flex flex-col">
       <div className="p-6 border-b border-blue-800">
         <h1 className="text-white font-bold text-lg leading-tight">Quinquenio</h1>
-        <p className="text-blue-300 text-xs mt-0.5">UIS 2025</p>
+        <p className="text-blue-300 text-xs mt-0.5">UIS 2026</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
