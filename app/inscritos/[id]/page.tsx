@@ -102,7 +102,11 @@ export default function InscritoDetailPage() {
               Ver QR
             </Link>
           )}
-          <BotonEnviarQR inscritoId={inscrito.id} estadoPago={inscrito.estado_pago} />
+          <BotonEnviarQR 
+            inscritoId={inscrito.id} 
+            estadoPago={inscrito.estado_pago}
+            qrEnviado={inscrito.qr_enviado ?? false}
+          />
           <button
             onClick={eliminar}
             disabled={eliminando}
