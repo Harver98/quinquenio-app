@@ -39,14 +39,30 @@ export async function POST(request: NextRequest) {
 
   const urlQR = `${process.env.NEXT_PUBLIC_APP_URL}/checkin/${inscrito.qr_token}`
 
-  // qrBase64 tiene el prefijo data:image/png;base64,... — úsalo directo en el src
-  const qrBase64 = await QRCode.toDataURL(urlQR, {
+  const qrBuffer = await QRCode.toBuffer(urlQR, {
     width: 400,
     margin: 2,
     color: { dark: '#1e3a8a', light: '#ffffff' },
   })
-  // Para el adjunto descargable, sin el prefijo
-  const qrImageBase64 = qrBase64.replace(/^data:image\/png;base64,/, '')
+
+  const fileName = `qr-${inscrito.qr_token}.png`
+  const { error: uploadError } = await supabase.storage
+    .from('qr-codes')
+    .upload(fileName, qrBuffer, {
+      contentType: 'image/png',
+      upsert: true,
+    })
+
+  if (uploadError) {
+    console.error('Error subiendo QR:', uploadError)
+    return NextResponse.json({ error: 'Error generando QR' }, { status: 500 })
+  }
+
+  const { data: urlData } = supabase.storage
+    .from('qr-codes')
+    .getPublicUrl(fileName)
+
+  const qrPublicUrl = urlData.publicUrl
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -82,7 +98,7 @@ export async function POST(request: NextRequest) {
                 <tr>
                   <td style="padding:0 40px 24px;text-align:center;">
                     <div style="background:#eff6ff;border:2px solid #bfdbfe;border-radius:16px;padding:32px;display:inline-block;">
-                      <img src="${qrBase64}" alt="Código QR" width="220" height="220" style="display:block;border-radius:8px;" />
+                      <img src="${qrPublicUrl}" alt="Código QR" width="220" height="220" style="display:block;border-radius:8px;" />
                       <p style="margin:16px 0 0;color:#1e40af;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Código de ingreso único</p>
                     </div>
                   </td>
@@ -147,7 +163,7 @@ export async function POST(request: NextRequest) {
       attachments: [
         {
           filename: `QR-ingreso-${inscrito.cedula}.png`,
-          content: qrImageBase64,
+          content: qrBuffer.toString('base64'),
         },
       ],
     }),
