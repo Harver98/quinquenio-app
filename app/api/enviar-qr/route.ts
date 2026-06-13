@@ -56,16 +56,18 @@ export async function POST(request: NextRequest) {
   const fileName = `qr-${inscrito.qr_token}.png`
 
   const { error: uploadError } = await supabaseAdmin.storage
-    .from('qr-codes')
-    .upload(fileName, qrBuffer, {
-      contentType: 'image/png',
-      upsert: true,
-    })
+  .from('qr-codes')
+  .upload(fileName, qrBuffer, {
+    contentType: 'image/png',
+    upsert: true,
+  })
 
-  if (uploadError) {
-    console.error('Error subiendo QR:', uploadError)
-    return NextResponse.json({ error: 'Error generando QR' }, { status: 500 })
-  }
+if (uploadError) {
+  console.error('Error subiendo QR:', JSON.stringify(uploadError))
+  console.error('Service role key presente:', !!process.env.SUPABASE_SERVICE_ROLE_KEY)
+  console.error('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+  return NextResponse.json({ error: 'Error generando QR', detalle: uploadError }, { status: 500 })
+}
 
   const { data: urlData } = supabaseAdmin.storage
     .from('qr-codes')
