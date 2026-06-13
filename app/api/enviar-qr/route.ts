@@ -5,6 +5,8 @@ import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import QRCode from 'qrcode'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies()
   const { inscrito_id } = await request.json()
