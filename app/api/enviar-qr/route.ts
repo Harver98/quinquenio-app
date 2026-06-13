@@ -194,14 +194,19 @@ if (uploadError) {
     return NextResponse.json({ error: 'Error al enviar el correo' }, { status: 500 })
   }
   
-  const { error: updateError } = await supabaseAdmin
-  .from('inscritos')
-  .update({ qr_enviado: true })
-  .eq('id', inscrito.id)
-
-console.log('Update qr_enviado result:', updateError ? JSON.stringify(updateError) : 'OK')
-console.log('inscrito_id recibido:', inscrito_id)
-console.log('inscrito.id desde DB:', inscrito.id) 
+  await fetch(
+  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/inscritos?id=eq.${inscrito.id}`,
+  {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
+      'Prefer': 'return=minimal',
+    },
+    body: JSON.stringify({ qr_enviado: true }),
+  }
+)
 
 return NextResponse.json({ ok: true, mensaje: 'Correo enviado correctamente' })
 }
