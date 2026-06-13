@@ -197,7 +197,7 @@ if (uploadError) {
   const { error: updateError } = await supabaseAdmin
   .from('inscritos')
   .update({ qr_enviado: true })
-  .eq('id', inscrito_id)
+  .eq('id', inscrito.id)
 
 console.log('Update qr_enviado result:', updateError ? JSON.stringify(updateError) : 'OK')
 console.log('inscrito_id recibido:', inscrito_id)
