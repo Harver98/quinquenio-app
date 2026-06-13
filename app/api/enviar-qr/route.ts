@@ -169,7 +169,7 @@ if (uploadError) {
                   <td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:24px 40px;text-align:center;">
                     <p style="margin:0;color:#9ca3af;font-size:12px;">
                       Correo automático del sistema de inscripciones.<br>
-                      Quinquenio ASEDUIS 2025 — Asociación de Egresados
+                      Quinquenio ASEDUIS 2026 — Asociación de Egresados
                     </p>
                   </td>
                 </tr>
@@ -200,6 +200,8 @@ if (uploadError) {
   .eq('id', inscrito_id)
 
 console.log('Update qr_enviado result:', updateError ? JSON.stringify(updateError) : 'OK')
+console.log('inscrito_id recibido:', inscrito_id)
+console.log('inscrito.id desde DB:', inscrito.id) 
 
 return NextResponse.json({ ok: true, mensaje: 'Correo enviado correctamente' })
 }
