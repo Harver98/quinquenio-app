@@ -93,7 +93,7 @@ if (uploadError) {
       from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2026 <noreply@aseduis.com>',
       to: [inscrito.correo],
       subject: '🎓 Tu código QR de ingreso — Quinquenio ASEDUIS 2026',
-      html: `
+      html:`
         <!DOCTYPE html>
         <html lang="es">
         <body style="margin:0;padding:0;background:#f3f4f6;font-family:Arial,sans-serif;">
@@ -163,6 +163,15 @@ if (uploadError) {
                         ${inscrito.acompanantes > 0 ? `<li>Puedes ingresar con <strong>${inscrito.acompanantes} acompañante${inscrito.acompanantes > 1 ? 's' : ''}</strong></li>` : ''}
                       </ul>
                     </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 40px 32px;text-align:center;">
+                    <a href="https://drive.google.com/file/d/1DMInMWp-YkG7YJiGyQYxatEPWFYTsbdd/view?usp=sharing"
+                       target="_blank"
+                       style="display:inline-block;background:#1d4ed8;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:8px;letter-spacing:0.3px;">
+                      📅 Ver programación del evento
+                    </a>
                   </td>
                 </tr>
                 <tr>
