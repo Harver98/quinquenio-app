@@ -156,7 +156,7 @@ if (uploadError) {
                       <ul style="margin:8px 0 0;padding-left:16px;color:#78350f;font-size:13px;line-height:1.8;">
                         <li><strong>Lugar:</strong> Aula Máxima de Ciencias – UIS</li>
                         <li><strong>Fecha:</strong> 14 de agosto del 2026</li>
-                        <li><strong>Hora:</strong> 06:15 pm</li>
+                        <li><strong>Hora:</strong> 06:00 pm</li>
                         <li>Presenta este QR en la entrada del evento</li>
                         <li>El código es de uso único e intransferible</li>
                         <li>Puedes presentarlo desde tu celular o impreso</li>
