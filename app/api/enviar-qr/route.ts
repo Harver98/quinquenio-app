@@ -152,11 +152,13 @@ if (uploadError) {
                 <tr>
                   <td style="padding:0 40px 32px;">
                     <div style="background:#fefce8;border:1px solid #fde68a;border-radius:12px;padding:16px 20px;">
-                      <p style="margin:0;color:#92400e;font-size:13px;font-weight:600;">📋 Instrucciones de ingreso</p>
+                      <p style="margin:0;color:#92400e;font-size:13px;font-weight:600;">📋 Instrucciones e información importante</p>
                       <ul style="margin:8px 0 0;padding-left:16px;color:#78350f;font-size:13px;line-height:1.8;">
                         <li><strong>Lugar:</strong> Aula Máxima de Ciencias – UIS</li>
                         <li><strong>Fecha:</strong> 14 de agosto del 2026</li>
                         <li><strong>Hora:</strong> 06:00 pm</li>
+                        <li><strong>Código de vestimenta:</strong> Casual elegante o formal</li>
+                        <li><strong>Parqueadero:</strong> Entrada por la Cra. 30 en los parqueaderos del Auditorio Luis A. Calvo <em>(Se recomienda no traer vehículo)</em></li>
                         <li>Presenta este QR en la entrada del evento</li>
                         <li>El código es de uso único e intransferible</li>
                         <li>Puedes presentarlo desde tu celular o impreso</li>
