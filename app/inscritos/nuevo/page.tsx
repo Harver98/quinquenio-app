@@ -19,7 +19,7 @@ const schema = z.object({
   anio_grado1: z.string().min(4, 'Año inválido'),
   programa2: z.string().optional(),
   anio_grado2: z.string().optional(),
-  tipo_egresado: z.enum(['socio', 'no_socio']),
+  tipo_egresado: z.enum(['socio', 'no_socio', 'ceremonia_2020_2021']),
   cantidad_botones: z.coerce.number().min(0).max(10), // Ahora es un número
 })
 
@@ -134,6 +134,7 @@ export default function NuevoInscritoPage() {
             <select {...register('tipo_egresado')} className={inputClass}>
               <option value="socio">Egresado Socio ASEDUIS — {formatCOP(COSTOS.socio)}</option>
               <option value="no_socio">Egresado No Socio — {formatCOP(COSTOS.no_socio)}</option>
+              <option value="ceremonia_2020_2021">Egresado Ceremonia 2020-2021 — {formatCOP(COSTOS.ceremonia_2020_2021)}</option>
             </select>
           </Field>
           

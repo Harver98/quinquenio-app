@@ -1,5 +1,5 @@
 export type EstadoPago = 'pendiente' | 'verificando' | 'aprobado' | 'rechazado'
-export type TipoEgresado = 'socio' | 'no_socio'
+export type TipoEgresado = 'socio' | 'no_socio' | 'ceremonia_2020_2021'
 export type RolUsuario = 'admin' | 'checkin'
 
 export interface Inscrito {
@@ -47,6 +47,7 @@ export interface DashboardStats {
 export const COSTOS = {
   socio: 100000,
   no_socio: 150000,
+  ceremonia_2020_2021: 75000,
   acompanante: 80000,
   boton_extra: 15000,
 } as const
@@ -54,10 +55,9 @@ export const COSTOS = {
 export function calcularTotal(
   tipo: TipoEgresado,
   acompanantes: number,
-  cantidad_botones: number // Cambiado de boolean a number
+  cantidad_botones: number
 ): number {
-  const base = tipo === 'socio' ? COSTOS.socio : COSTOS.no_socio
-  // Ahora multiplicamos la cantidad por el costo unitario
+  const base = COSTOS[tipo]
   return base + (acompanantes * COSTOS.acompanante) + (cantidad_botones * COSTOS.boton_extra)
 }
 
