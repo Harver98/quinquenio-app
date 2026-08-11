@@ -1,5 +1,5 @@
 export type EstadoPago = 'pendiente' | 'verificando' | 'aprobado' | 'rechazado'
-export type TipoEgresado = 'socio' | 'no_socio' | 'ceremonia_2020_2021'
+export type TipoEgresado = 'socio' | 'no_socio' | 'ceremonia_2020_2021'| 'invitado_especial'
 export type RolUsuario = 'admin' | 'checkin'
 
 export interface Inscrito {
@@ -48,6 +48,7 @@ export const COSTOS = {
   socio: 100000,
   no_socio: 150000,
   ceremonia_2020_2021: 75000,
+  invitado_especial: 0,
   acompanante: 80000,
   boton_extra: 15000,
 } as const
