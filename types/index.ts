@@ -1,4 +1,4 @@
-export type EstadoPago = 'pendiente' | 'verificando' | 'aprobado' | 'rechazado'
+export type EstadoPago = 'preinscrito' | 'pendiente' | 'verificando' | 'aprobado' | 'rechazado'
 export type TipoEgresado = 'socio' | 'no_socio' | 'ceremonia_2020_2021'| 'invitado_especial'
 export type RolUsuario = 'admin' | 'checkin'
 

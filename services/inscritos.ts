@@ -96,3 +96,21 @@ export async function eliminarInscrito(id: string): Promise<void> {
   const { error } = await supabase.from('inscritos').delete().eq('id', id)
   if (error) throw error
 }
+
+
+export async function crearPreinscrito(
+  datos: Pick<Inscrito, 'nombre' | 'cedula' | 'telefono' | 'correo'>
+): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase.from('inscritos').insert({
+    ...datos,
+    acompanantes: 0,
+    programa1: '',
+    anio_grado1: '',
+    tipo_egresado: 'no_socio',
+    cantidad_botones: 0,
+    total: 0,
+    estado_pago: 'preinscrito',
+  })
+  if (error) throw error
+}

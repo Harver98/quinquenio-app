@@ -1,6 +1,7 @@
 import type { EstadoPago } from '@/types'
 
 const clases: Record<EstadoPago, string> = {
+  preinscrito: 'bg-purple-100 text-purple-800 border border-purple-300',
   pendiente:   'bg-yellow-100 text-yellow-800 border border-yellow-300',
   verificando: 'bg-blue-100 text-blue-800 border border-blue-300',
   aprobado:    'bg-green-100 text-green-800 border border-green-300',
@@ -8,6 +9,7 @@ const clases: Record<EstadoPago, string> = {
 }
 
 const etiquetas: Record<EstadoPago, string> = {
+  preinscrito: 'Preinscrito',
   pendiente:   'Pendiente',
   verificando: 'Verificando',
   aprobado:    'Aprobado',

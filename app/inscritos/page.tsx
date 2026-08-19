@@ -112,6 +112,7 @@ export default function InscritosPage() {
           onChange={e => cambiarEstado(row.original.id, e.target.value as EstadoPago)}
           className="text-xs font-medium px-2 py-1 rounded-lg border border-gray-200 bg-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-400"
         >
+          <option value="preinscrito">Preinscrito</option>
           <option value="pendiente">Pendiente</option>
           <option value="verificando">Verificando</option>
           <option value="aprobado">Aprobado</option>
@@ -178,7 +179,7 @@ export default function InscritosPage() {
       </div>
 
     <div className="flex flex-wrap gap-2 mb-6">
-        {['todos', 'pendiente', 'verificando', 'aprobado', 'rechazado'].map(e => (
+        {['todos', 'pendiente', 'verificando', 'aprobado', 'rechazado', 'preinscrito'].map(e => (
           <button
             key={e}
             onClick={() => setFiltroEstado(e)}
