@@ -68,6 +68,7 @@ export default function InscritoDetailPage() {
   )
 
   const estadoBadge: Record<EstadoPago, string> = {
+    preinscrito: 'bg-purple-100 text-purple-800',
     pendiente:   'bg-yellow-100 text-yellow-800',
     verificando: 'bg-blue-100 text-blue-800',
     aprobado:    'bg-green-100 text-green-800',
