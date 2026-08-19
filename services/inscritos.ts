@@ -77,6 +77,12 @@ export async function actualizarEstadoPago(
   if (error) throw error
 }
 
+export async function eliminarTodosInscritos() {
+  const supabase = createClient()
+  const { error } = await supabase.rpc('truncate_inscritos')
+  if (error) throw error
+}
+
 export async function getComprobanteUrl(path: string): Promise<string> {
   const supabase = createClient()
   const { data } = await supabase.storage

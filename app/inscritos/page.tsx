@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
-import { getInscritos, actualizarEstadoPago } from '@/services/inscritos'
+import { getInscritos, actualizarEstadoPago, eliminarInscrito, eliminarTodosInscritos } from '@/services/inscritos'
 import type { Inscrito, EstadoPago } from '@/types'
 import { formatCOP } from '@/types'
 import { DataTable } from '@/components/tables/DataTable'
@@ -14,6 +14,7 @@ export default function InscritosPage() {
   const [inscritos, setInscritos] = useState<Inscrito[]>([])
   const [loading, setLoading] = useState(true)
   const [filtroEstado, setFiltroEstado] = useState<string>('todos')
+  const [borrandoId, setBorrandoId] = useState<string | null>(null)
 
   async function cargar() {
     try {
@@ -36,6 +37,40 @@ export default function InscritosPage() {
       toast.error('Error al actualizar estado')
     }
   }
+
+  async function borrarInscrito(id: string, nombre: string) {
+    if (!confirm(`¿Borrar a "${nombre}"? Esta acción no se puede deshacer.`)) return
+    setBorrandoId(id)
+    try {
+      await eliminarInscrito(id)
+      setInscritos(prev => prev.filter(i => i.id !== id))
+      toast.success('Inscrito eliminado')
+    } catch {
+      toast.error('Error al eliminar inscrito')
+    } finally {
+      setBorrandoId(null)
+    }
+  }
+
+  const [borrandoTodos, setBorrandoTodos] = useState(false)
+    async function borrarTodos() {
+      if (inscritos.length === 0) return
+      const confirmacion = prompt(
+        `Vas a borrar ${inscritos.length} inscritos PERMANENTEMENTE. Escribe "BORRAR" para confirmar.`
+      )
+      if (confirmacion !== 'BORRAR') return
+
+      setBorrandoTodos(true)
+      try {
+        await eliminarTodosInscritos()
+        setInscritos([])
+        toast.success('Todos los inscritos fueron eliminados')
+      } catch {
+        toast.error('Error al eliminar los inscritos')
+      } finally {
+        setBorrandoTodos(false)
+      }
+    }
 
   const datos = filtroEstado === 'todos'
     ? inscritos
@@ -106,10 +141,17 @@ export default function InscritosPage() {
               QR
             </Link>
           )}
+          <button
+            onClick={() => borrarInscrito(row.original.id, row.original.nombre)}
+            disabled={borrandoId === row.original.id}
+            className="text-red-600 hover:underline text-xs font-medium disabled:opacity-50"
+          >
+            {borrandoId === row.original.id ? 'Borrando…' : 'Borrar'}
+          </button>
         </div>
       ),
     },
-  ], [inscritos])
+  ], [inscritos, borrandoId])
 
   return (
     <div className="p-8">
@@ -118,16 +160,24 @@ export default function InscritosPage() {
           <h1 className="text-2xl font-bold text-gray-900">Inscritos</h1>
           <p className="text-gray-500 mt-1">{inscritos.length} personas registradas</p>
         </div>
-        <Link
-          href="/inscritos/nuevo"
-          className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
-        >
-          + Nuevo inscrito
+        <div className="flex gap-2">
+          <button
+            onClick={borrarTodos}
+            disabled={borrandoTodos}
+            className="bg-red-700 hover:bg-red-800 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors disabled:opacity-50"
+          >
+            {borrandoTodos ? 'Borrando…' : 'Borrar todos'}
+          </button>
+          <Link
+            href="/inscritos/nuevo"
+            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
+          >
+            + Nuevo inscrito
         </Link>
       </div>
+      </div>
 
-      {/* Filtros rápidos por estado */}
-      <div className="flex flex-wrap gap-2 mb-6">
+    <div className="flex flex-wrap gap-2 mb-6">
         {['todos', 'pendiente', 'verificando', 'aprobado', 'rechazado'].map(e => (
           <button
             key={e}
