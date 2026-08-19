@@ -90,9 +90,9 @@ if (uploadError) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2026 <noreply@aseduis.com>',
+      from: process.env.EMAIL_FROM || 'Quinquenio ASEDUIS 2027 <noreply@aseduis.com>',
       to: [inscrito.correo],
-      subject: '🎓 Tu código QR de ingreso — Quinquenio ASEDUIS 2026',
+      subject: '🎓 Tu código QR de ingreso — Quinquenio ASEDUIS 2027',
       html:`
         <!DOCTYPE html>
         <html lang="es">
@@ -103,7 +103,7 @@ if (uploadError) {
                 <tr>
                   <td style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8);padding:36px 40px;text-align:center;">
                     <p style="margin:0;color:#93c5fd;font-size:13px;letter-spacing:2px;text-transform:uppercase;">Universidad Industrial de Santander</p>
-                    <h1 style="margin:8px 0 0;color:#ffffff;font-size:26px;font-weight:700;">Quinquenio ASEDUIS 2026</h1>
+                    <h1 style="margin:8px 0 0;color:#ffffff;font-size:26px;font-weight:700;">Quinquenio ASEDUIS 2027</h1>
                   </td>
                 </tr>
                 <tr>
@@ -155,7 +155,7 @@ if (uploadError) {
                       <p style="margin:0;color:#92400e;font-size:13px;font-weight:600;">📋 Instrucciones e información importante</p>
                       <ul style="margin:8px 0 0;padding-left:16px;color:#78350f;font-size:13px;line-height:1.8;">
                         <li><strong>Lugar:</strong> Aula Máxima de Ciencias – UIS</li>
-                        <li><strong>Fecha:</strong> 14 de agosto del 2026</li>
+                        <li><strong>Fecha:</strong> 14 de agosto del 2027</li>
                         <li><strong>Hora:</strong> 06:00 pm</li>
                         <li><strong>Código de vestimenta:</strong> Casual elegante o formal</li>
                         <li><strong>Parqueadero:</strong> Entrada por la Cra. 30 en los parqueaderos del Auditorio Luis A. Calvo <em>(Se recomienda no traer vehículo)</em></li>
@@ -180,7 +180,7 @@ if (uploadError) {
                   <td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:24px 40px;text-align:center;">
                     <p style="margin:0;color:#9ca3af;font-size:12px;">
                       Correo automático del sistema de inscripciones.<br>
-                      Quinquenio ASEDUIS 2026 — Asociación de Egresados
+                      Quinquenio ASEDUIS 2027 — Asociación de Egresados
                     </p>
                   </td>
                 </tr>

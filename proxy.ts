@@ -39,12 +39,20 @@ export default async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
+
   const isLoginPage = path.startsWith('/login')
+  const isPreinscripcionPage = path.startsWith('/preinscripcion')
   const isCheckinPage = path.startsWith('/checkin')
   const isApiRoute = path.startsWith('/api')
 
-  // 1. Si NO está logueado y no es login ni api → ir al login
-  if (!user && !isLoginPage && !isApiRoute) {
+  // Rutas públicas
+  const isPublicPage =
+    isLoginPage ||
+    isPreinscripcionPage ||
+    isApiRoute
+
+  // 1. Si NO está logueado y la página es privada → login
+  if (!user && !isPublicPage) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
@@ -59,8 +67,9 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  // 3. Si está logueado con rol checkin e intenta acceder a algo que no es checkin → bloquearlo
-  if (user && !isCheckinPage && !isApiRoute) {
+  // 3. Usuario con rol checkin
+  // Solo puede acceder a checkin y APIs
+  if (user && !isCheckinPage && !isApiRoute && !isPreinscripcionPage) {
     const role = user.user_metadata?.role
 
     if (role === 'checkin') {

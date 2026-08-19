@@ -62,7 +62,7 @@ export default function PreinscripcionPage() {
   return (
     <div className="p-8 max-w-2xl mx-auto">
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Preinscripción</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Preinscripción quinquenios 2027</h1>
         <p className="text-gray-500 mt-1 text-sm">Déjanos tus datos y te contactaremos pronto</p>
       </div>
 
