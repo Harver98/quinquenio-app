@@ -99,18 +99,41 @@ export async function eliminarInscrito(id: string): Promise<void> {
 
 
 export async function crearPreinscrito(
-  datos: Pick<Inscrito, 'nombre' | 'cedula' | 'telefono' | 'correo'>
+  datos: Pick<Inscrito, 'nombre' | 'cedula' | 'telefono' | 'correo' | 'programa1' | 'anio_grado1' | 'programa2' | 'anio_grado2'>
 ): Promise<void> {
   const supabase = createClient()
   const { error } = await supabase.from('inscritos').insert({
     ...datos,
     acompanantes: 0,
-    programa1: '',
-    anio_grado1: '',
     tipo_egresado: 'no_socio',
     cantidad_botones: 0,
     total: 0,
     estado_pago: 'preinscrito',
   })
+  if (error) throw error
+}
+
+export async function actualizarInscrito(
+  id: string,
+  datos: Partial<Omit<Inscrito, 'id' | 'qr_token' | 'created_at'>>,
+  archivo?: File
+): Promise<void> {
+  const supabase = createClient()
+  let comprobante_url = datos.comprobante_url
+
+  if (archivo) {
+    const comprimido = await comprimirImagen(archivo)
+    const nombreArchivo = `${datos.cedula ?? id}-${Date.now()}.webp`
+    const { error: uploadError } = await supabase.storage
+      .from('comprobantes')
+      .upload(nombreArchivo, comprimido, { contentType: 'image/webp', upsert: true })
+    if (uploadError) throw uploadError
+    comprobante_url = nombreArchivo
+  }
+
+  const { error } = await supabase
+    .from('inscritos')
+    .update({ ...datos, ...(comprobante_url ? { comprobante_url } : {}) })
+    .eq('id', id)
   if (error) throw error
 }
